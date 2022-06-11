@@ -5,8 +5,8 @@
 
 all: parse
 
-parse: parse.o parselib.o
-	gcc parse.o parselib.o -o parse -lm
+parse: parse.o parselib.o actstr.o
+	gcc parse.o parselib.o actstr.o -o parse -lm
 	rm *.o
 
 parse.o: parse.c parselib.h
@@ -14,6 +14,9 @@ parse.o: parse.c parselib.h
 
 parselib.o: parselib.c parselib.h
 	gcc -c parselib.c
+
+actstr.o: actstr.c actstr.h
+	gcc -c actstr.c
 
 clean:
 	rm *.o parse

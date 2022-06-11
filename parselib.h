@@ -9,20 +9,13 @@
 #include <math.h>
 #include <time.h>
 
+#define MAX_LINE 1024
+
 #endif
-
-// Activity structure
-typedef struct ActivityTag {
-    char *type;
-    char *date;
-    double dist;
-    double time;
-    int hr;
-    struct Activity *next;
-
-} Activity;
 
 // Prototypes
 void hello();
 int gen_random();
 void WrongArg();
+
+int count_lines(char *);
