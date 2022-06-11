@@ -19,7 +19,7 @@ struct Activity {
 typedef struct Activity Activity;
 
 // Function Prototypes
-Activity *make_node(char *, char *, double, double);
+Activity *make_node(char *, char *, double, double, int);
 void print_activity(Activity *);
 void free_activity(Activity *);
 void free_activity_list(Activity *);

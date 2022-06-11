@@ -10,6 +10,7 @@
 #include <time.h>
 
 #define MAX_LINE 1024
+#define TOK_SIZE 16
 
 #endif
 
@@ -19,3 +20,5 @@ int gen_random();
 void WrongArg();
 
 int count_lines(char *);
+void stripper(char []);
+double decTime(char []);
