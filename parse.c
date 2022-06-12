@@ -6,7 +6,6 @@ int main(int argc, char *argv[]) {
 
     FILE *in; 
     int lthr = -1;
-    int lines;
     int data_point;
     char buff[MAX_LINE] = {0};
     char *read;
@@ -14,6 +13,9 @@ int main(int argc, char *argv[]) {
     char act_type[TOK_SIZE], act_date[TOK_SIZE];
     double act_dist, act_time;
     int act_hr;
+    int nodes = 0;
+
+    Activity *head = NULL;
 
     // Expects two CL args: .csv filename and lthr
     if (argc != 3 || ((lthr = atoi(argv[2])) == 0)) {
@@ -62,6 +64,7 @@ int main(int argc, char *argv[]) {
             data_point++;
 
             while (data_point < 8 && (tok = strtok(NULL, ",")) != NULL) {
+
                 // If we ran into a wierd comma, advance tok by one
                 if (strlen(tok) < 3) {
                     tok = strtok(NULL, ",");
@@ -94,8 +97,9 @@ int main(int argc, char *argv[]) {
 
                 
             }
-            Activity *new = make_node(act_type, act_date, act_dist, act_time, act_hr);
-            print_activity(new);
+            // Activity *new = make_node(act_type, act_date, act_dist, act_time, act_hr);
+            add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
+            nodes++;
         
 
         }
@@ -106,6 +110,16 @@ int main(int argc, char *argv[]) {
 
     // close activities file
     fclose(in);
+
+
+    // So now, we have a linked list of activity nodes
+    // J
+
+    // print_list(head);
+    // printf("Number of nodes: %d\n", nodes);
+
+    free_activity_list(head);
+
 
     return 0;
 }

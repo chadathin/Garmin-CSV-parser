@@ -1,6 +1,7 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/home/chad/Documents/C Programming/Garmin-CSV-parser'
-gcc -c parse.c
+gcc -c -g parse.c
+ 
 gcc -c parselib.c
 gcc -c actstr.c
 gcc parse.o parselib.o actstr.o -o parse -lm

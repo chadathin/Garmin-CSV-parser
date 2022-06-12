@@ -1,4 +1,5 @@
 #include "parselib.h"
+#include "actstr.h"
 
 void WrongArg() {
     errno = EINVAL;
@@ -70,3 +71,12 @@ double decTime(char strTime[]) {
   return out;
   
 }
+
+int calc_rss(int avghr, int lthr, double duration) {
+
+    double stress = ((double)avghr / (double) lthr) * (duration / (double)60);
+    stress = stress * 100;
+    return (int) stress;
+
+}
+

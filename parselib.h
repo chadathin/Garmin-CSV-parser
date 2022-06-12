@@ -22,3 +22,4 @@ void WrongArg();
 int count_lines(char *);
 void stripper(char []);
 double decTime(char []);
+int calc_rss(int, int, double);

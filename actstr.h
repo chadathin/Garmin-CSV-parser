@@ -12,6 +12,7 @@ struct Activity {
     double dist;
     double time;
     int hr;
+    int rss;
     struct Activity *next;
 
 };
@@ -23,3 +24,5 @@ Activity *make_node(char *, char *, double, double, int);
 void print_activity(Activity *);
 void free_activity(Activity *);
 void free_activity_list(Activity *);
+void add_node(Activity **curr, char *, char *, double , double , int, int);
+void print_list(Activity *); 
