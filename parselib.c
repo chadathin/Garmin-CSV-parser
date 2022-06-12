@@ -1,3 +1,5 @@
+
+
 #include "parselib.h"
 #include "actstr.h"
 
@@ -80,3 +82,43 @@ int calc_rss(int avghr, int lthr, double duration) {
 
 }
 
+
+
+void print_array(int *arr, int size, int filter) {
+    int i;
+    printf("[");
+    for (i = 0; i<size; i++) {
+        if (filter) {
+            if (*(arr + i) == 0) {
+                printf("--");
+            } else {
+                printf("%d", *(arr + i));
+            }
+        } else {
+            printf("%d", *(arr + i));
+        }
+        
+        
+        if (i<size-1) printf(", ");
+    }
+    printf("]\n");
+
+}
+
+
+
+time_t get_epoch(char *date) {
+ 
+    struct tm temp;
+    sscanf(date, "%d-%d-%d", &temp.tm_year, 
+        &temp.tm_mon, &temp.tm_mday);
+        
+    temp.tm_year -= 1900;
+    temp.tm_min--;
+    temp.tm_isdst = -1;
+    temp.tm_sec = 0;
+    temp.tm_min = 0;
+    temp.tm_hour = 0;
+    
+    return mktime(&temp);
+}

@@ -8,9 +8,12 @@ int main(int argc, char *argv[]) {
     int lthr = -1;
     int data_point;
     char buff[MAX_LINE] = {0};
+
     char *read;
     char *tok;
-    char act_type[TOK_SIZE], act_date[TOK_SIZE];
+
+    char act_type[TOK_SIZE];
+    time_t act_date;
     double act_dist, act_time;
     int act_hr;
     int nodes = 0;
@@ -48,7 +51,7 @@ int main(int argc, char *argv[]) {
     while(read = fgets(buff, MAX_LINE, in)) {
 
         data_point = 0;
-        memset(act_date, '\0', TOK_SIZE);
+        // memset(act_date, '\0', TOK_SIZE);
         memset(act_type, '\0', TOK_SIZE);
 
         if (read == NULL) {
@@ -73,22 +76,28 @@ int main(int argc, char *argv[]) {
                 // otherwise, save current tok if needed
                 switch(data_point) {
                     case 1:                 // date
-                        strncpy(act_date, tok, 10);
+                        
+                        act_date = get_epoch(tok);
+                        // printf("NODE[%d]: DATA POINT[%d]: TOK[%s] EPOCH -> %ld\n", nodes, data_point, tok, act_date);
+                        // strncpy(act_date, tok, 10);
                         data_point++;
                         break;
                     case 4:                 // distance
                         stripper(tok);
                         act_dist = atof(tok);
+                        // printf("NODE[%d]: DATA POINT[%d]: DISTANCE -> %f\n", nodes, data_point, act_dist);
                         data_point++;
                         break;
                     case 6:                 // time
                         stripper(tok);
                         act_time = decTime(tok);
+                        // printf("NODE[%d]: DATA POINT[%d]: DURATION -> %f\n", nodes, data_point, act_time);
                         data_point++;
                         break;
                     case 7:                 // avg hr
                         stripper(tok);
                         act_hr = atoi(tok);
+                        // printf("NODE[%d]: DATA POINT[%d]: AVG HR -> %d\n", nodes, data_point, act_hr);
                         data_point++;
                         break;
                     default:
@@ -98,6 +107,7 @@ int main(int argc, char *argv[]) {
                 
             }
             // Activity *new = make_node(act_type, act_date, act_dist, act_time, act_hr);
+            
             add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
             nodes++;
         
@@ -111,14 +121,28 @@ int main(int argc, char *argv[]) {
     // close activities file
     fclose(in);
 
-
+    print_list(head);
     // So now, we have a linked list of activity nodes
-    // J
+    // First, I'd like to cound the number of unique dates
+    int days = num_days(head);
+    printf("DAYS: %d\n", days);
 
-    // print_list(head);
-    // printf("Number of nodes: %d\n", nodes);
+    // Then, I'd like to combine RSS scores from the same date
+    int *stresses = consolidate(head, days);
+    print_array(stresses, days, 0);
+
+    // Now, we have an array of RSSs for EACH DAY in the CSV
+    // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
+    // We can calculate chronic and acute RSS loads to find RSB
+
+
+    
+
+    
+   
 
     free_activity_list(head);
+    free(stresses);
 
 
     return 0;

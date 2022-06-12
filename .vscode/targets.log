@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun 11 15:39:14 2022
+# Make data base, printed on Sat Jun 11 20:10:17 2022
 
 # Variables
 
@@ -29,6 +29,7 @@ WINDOWPATH = 2
 # default
 MAKE_COMMAND := make
 # environment
+ 
 QT_ACCESSIBILITY = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -202,6 +203,7 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 HOME = /home/chad
 # environment
 QT_IM_MODULE = ibus
+ 
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
@@ -221,8 +223,11 @@ CONDA_EXE = /home/chad/miniconda3/bin/conda
 # environment
 _CE_CONDA = 
 # environment
+ 
 GDMSESSION = pop
+ 
 # variable set hash-table stats:
+ 
 # Load=106/1024=10%, Rehash=0, Collisions=4/139=3%
 
 # Pattern-specific Variable Values
@@ -247,7 +252,7 @@ parselib.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-parse.o: parse.c parselib.h
+parse.o: parse.c
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
@@ -260,13 +265,13 @@ parse.o: parse.c parselib.h
 # automatic
 # < := parse.c
 # automatic
-# + := parse.c parselib.h
+# + := parse.c
 # automatic
 # % := 
 # automatic
-# ^ := parse.c parselib.h
+# ^ := parse.c
 # automatic
-# ? := parse.c parselib.h
+# ? := parse.c
 # automatic
 # | := 
 # variable set hash-table stats:
@@ -277,12 +282,11 @@ parse.o: parse.c parselib.h
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-11 15:38:42.831644405
+#  Last modified 2022-06-11 20:09:48.460616768
 #  File has been updated.
 #  Successfully updated.
- 
 
-actstr.o: actstr.c actstr.h
+actstr.o: actstr.c actstr.h parselib.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -298,13 +302,13 @@ clean:
 
 parse: parse.o parselib.o actstr.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-06-11 15:38:45.347609385
+#  Last modified 2022-06-11 20:09:51.960677275
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 9):
-	gcc parse.o parselib.o actstr.o -o parse -lm
+	gcc parse.o parselib.o actstr.o -o parse -g -lm
 	rm *.o
 
 # Not a target:
@@ -313,7 +317,7 @@ actstr.h:
 #  Modification time never checked.
 #  File has not been updated.
 
-parselib.o: parselib.c parselib.h
+parselib.o: parselib.c parselib.h actstr.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -344,16 +348,15 @@ actstr.c:
 # Not a target:
 parse.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-11 15:38:16.652016185
+#  Last modified 2022-06-11 19:43:22.376739963
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 parselib.h:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-11 14:50:36.46331615
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 .SUFFIXES:
@@ -362,7 +365,7 @@ parselib.h:
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=14/1024=1%, Rehash=0, Collisions=0/40=0%
+# Load=14/1024=1%, Rehash=0, Collisions=0/41=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
@@ -372,9 +375,9 @@ parselib.h:
 # strcache buffers: 1 (0) / strings = 25 / storage = 230 B / avg = 9 B
 # current buf: size = 8162 B / used = 230 B / count = 25 / avg = 9 B
 
-# strcache performance: lookups = 48 / hit rate = 47%
+# strcache performance: lookups = 49 / hit rate = 48%
 # hash-table stats:
-# Load=25/8192=0%, Rehash=0, Collisions=0/48=0%
-# Finished Make data base on Sat Jun 11 15:39:14 2022
+# Load=25/8192=0%, Rehash=0, Collisions=0/49=0%
+# Finished Make data base on Sat Jun 11 20:10:17 2022
 
  
