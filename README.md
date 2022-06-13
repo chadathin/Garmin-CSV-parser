@@ -1,5 +1,5 @@
 # Garmin CSV parser
- ### Parses Garmin activities CSV and tabulate rough estimate of current running stress balance
+ ### Parses Garmin activities CSV and tabulates rough estimate of current Running Stress Balance
 
 To compile, just type `make` to run the Makefile
 
@@ -9,7 +9,7 @@ The program will then extract `type`, `distance`, `duration`, `average heart rat
 
 From this, the program will tabulate a Running Stress Score for each activity and a Running Stress Balance over time.
 
-It's obviously not perfect, but it will give you a good 'jumping-off' point to start training.
+The RSB is obviously not perfect, but it will give you a good 'jumping-off' point to start training.
 
 Techniques I wanted to practice:
 - Program modularity
