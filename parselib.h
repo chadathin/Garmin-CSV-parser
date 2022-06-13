@@ -29,3 +29,4 @@ int calc_rss(int, int, double);
 
 void print_array(int *arr, int size, int filter);
 time_t get_epoch(char *date);
+void reverse(int *list, int len);

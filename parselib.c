@@ -122,3 +122,21 @@ time_t get_epoch(char *date) {
     
     return mktime(&temp);
 }
+
+void reverse(int *list, int len) {
+  int *start = list;
+  int *end = (list + len) - 1;
+  int temp;
+  int i;
+  
+  
+  for (i = 0; i< len/2; i++) {
+    temp = *start;
+    *start = *end;
+    *end = temp;
+    start++;
+    end--;
+  }
+  
+  
+}

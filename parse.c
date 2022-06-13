@@ -40,15 +40,13 @@ int main(int argc, char *argv[]) {
     }
 
     // do this first one to get it out of the way 
-    if (read = fgets(buff, MAX_LINE, in)) {                 
-        if (read == NULL) {
-            fprintf(stderr, "%s", "Unable to read line\n");
-            exit(2);
-        };
+    if ((read = fgets(buff, MAX_LINE, in)) == NULL) {                 
+        fprintf(stderr, "%s", "Unable to read line\n");
+        exit(2);
     };             
 
     // Now, start reading line after line
-    while(read = fgets(buff, MAX_LINE, in)) {
+    while(fgets(buff, MAX_LINE, in)) {
 
         data_point = 0;
         // memset(act_date, '\0', TOK_SIZE);
@@ -133,8 +131,21 @@ int main(int argc, char *argv[]) {
 
     // Now, we have an array of RSSs for EACH DAY in the CSV
     // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
-    // We can calculate chronic and acute RSS loads to find RSB
+    // so we need to reverse them, so they ARE in chronoligical order
+    printf("\n\n");
+    reverse(stresses, days);
+    print_array(stresses, days, 0);
 
+    // We can calculate chronic and acute RSS loads to find RSB
+    if (days < 42) {
+        fprintf(stderr, "Must have at least 42 data points.\n");
+        fflush(stderr);
+        exit(3);
+    }
+    int *rsbs = (int *)malloc((days-42+1)*sizeof(int));
+
+
+    
 
     
 
