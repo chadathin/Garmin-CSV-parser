@@ -140,3 +140,48 @@ void reverse(int *list, int len) {
   
   
 }
+
+float *sliding_window(int wsize, int *arr, int asize) {
+	// Calculates the rolling averages of an array
+	// rolling window is size 'wsize'
+	// 'wsize' must be <= to 'asize'
+	// returns pointer to an array of floats containing averages
+	// Output array created with malloc; caller must use free()
+  
+  float avg = 0;
+  float *out = (float *)malloc((asize - wsize + 1)*sizeof(float));
+	
+  int *s, *e;
+  s = arr;
+  e = arr;
+
+	int i, a_index, sum;
+	a_index = 0;
+	sum = 0;
+
+	// Establish window
+  for (i = 0; i < wsize; i++) {
+    sum += *e;
+    e++;
+  }
+
+	// place the first average and increment
+  *(out + a_index) = (float)sum/(float)(wsize);
+  a_index++;
+
+  // walk down the array
+  while (i < asize) {
+
+		// add the next, subtract the first, average and place
+    sum += (*e - *s);
+    *(out + a_index) = (float)sum/(float)(wsize);
+    
+    a_index++;
+    e++;
+    s++;
+    i++;
+  }
+  
+  return out;
+  
+}
