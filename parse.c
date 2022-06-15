@@ -104,8 +104,7 @@ int main(int argc, char *argv[]) {
 
                 
             }
-            // Activity *new = make_node(act_type, act_date, act_dist, act_time, act_hr);
-            
+                        
             add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
             nodes++;
         
@@ -142,7 +141,17 @@ int main(int argc, char *argv[]) {
         fflush(stderr);
         exit(3);
     }
-    int *rsbs = (int *)malloc((days-42+1)*sizeof(int));
+    int wdays = days-42+1;
+    int *chronics = sliding_window(42, stresses, days);
+    int *acutes = sliding_window(7, stresses, days);
+    int *rsbs = (int *)malloc((wdays)*sizeof(int));
+    int i;
+    for (i = 0; i < wdays; i++) {
+        *(rsbs + i) = *(chronics + i) - *(acutes + i);
+    }
+
+    printf("\n\n");
+    print_array(rsbs, wdays, 0);
 
 
     
@@ -154,6 +163,9 @@ int main(int argc, char *argv[]) {
 
     free_activity_list(head);
     free(stresses);
+    free(chronics);
+    free(acutes);
+    free(rsbs);
 
 
     return 0;

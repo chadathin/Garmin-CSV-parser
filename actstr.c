@@ -13,10 +13,11 @@ void free_activity(Activity *done) {
 }
 
 void free_activity_list(Activity *curr) {
+    Activity *next;
     while (curr != NULL) {
+        next = curr->next;
         free_activity(curr);
-        
-        curr = curr->next;
+        curr = next;
     }
 }
 

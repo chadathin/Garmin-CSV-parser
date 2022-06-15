@@ -28,6 +28,7 @@ double decTime(char []);
 int calc_rss(int, int, double);
 
 void print_array(int *arr, int size, int filter);
+void fprint_array(float *arr, int size, int filter);
 time_t get_epoch(char *date);
 void reverse(int *list, int len);
-float *sliding_window(int wsize, int *arr, int asize);
+int *sliding_window(int wsize, int *arr, int asize);

@@ -105,6 +105,26 @@ void print_array(int *arr, int size, int filter) {
 
 }
 
+void fprint_array(float *arr, int size, int filter) {
+    int i;
+    printf("[");
+    for (i = 0; i<size; i++) {
+        if (filter) {
+            if (*(arr + i) == 0) {
+                printf("--");
+            } else {
+                printf("%f", *(arr + i));
+            }
+        } else {
+            printf("%f", *(arr + i));
+        }
+        
+        
+        if (i<size-1) printf(", ");
+    }
+    printf("]\n");
+
+}
 
 
 time_t get_epoch(char *date) {
@@ -141,7 +161,7 @@ void reverse(int *list, int len) {
   
 }
 
-float *sliding_window(int wsize, int *arr, int asize) {
+int *sliding_window(int wsize, int *arr, int asize) {
 	// Calculates the rolling averages of an array
 	// rolling window is size 'wsize'
 	// 'wsize' must be <= to 'asize'
@@ -149,7 +169,7 @@ float *sliding_window(int wsize, int *arr, int asize) {
 	// Output array created with malloc; caller must use free()
   
   float avg = 0;
-  float *out = (float *)malloc((asize - wsize + 1)*sizeof(float));
+  int *out = (int *)malloc((asize - wsize + 1)*sizeof(int));
 	
   int *s, *e;
   s = arr;
@@ -166,7 +186,7 @@ float *sliding_window(int wsize, int *arr, int asize) {
   }
 
 	// place the first average and increment
-  *(out + a_index) = (float)sum/(float)(wsize);
+  *(out + a_index) = round((float)sum/(float)(wsize));
   a_index++;
 
   // walk down the array
@@ -174,7 +194,7 @@ float *sliding_window(int wsize, int *arr, int asize) {
 
 		// add the next, subtract the first, average and place
     sum += (*e - *s);
-    *(out + a_index) = (float)sum/(float)(wsize);
+    *(out + a_index) = round((float)sum/(float)(wsize));
     
     a_index++;
     e++;
