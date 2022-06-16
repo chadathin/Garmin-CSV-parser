@@ -107,11 +107,7 @@ int main(int argc, char *argv[]) {
                         
             add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
             nodes++;
-        
-
         }
-
-            
     };
 
 
@@ -120,38 +116,60 @@ int main(int argc, char *argv[]) {
 
     print_list(head);
     // So now, we have a linked list of activity nodes
-    // First, I'd like to cound the number of unique dates
+    // First, I'd like to find the number of dates covered
     int days = num_days(head);
     printf("DAYS: %d\n", days);
+    if (days < CHRONIC_SIZE) {
+        fprintf(stderr, "Must have at least %d data points.\n", CHRONIC_SIZE);
+        fflush(stderr);
+        exit(3);
+    }
 
     // Then, I'd like to combine RSS scores from the same date
-    int *stresses = consolidate(head, days);
+    int *stresses = consolidate_rss(head, days);
+    printf("STRESSES\n");
     print_array(stresses, days, 0);
 
     // Now, we have an array of RSSs for EACH DAY in the CSV
     // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
     // so we need to reverse them, so they ARE in chronoligical order
-    printf("\n\n");
+    printf("\n\nREV STRESSES:\n");
     reverse(stresses, days);
     print_array(stresses, days, 0);
 
     // We can calculate chronic and acute RSS loads to find RSB
-    if (days < 42) {
-        fprintf(stderr, "Must have at least 42 data points.\n");
-        fflush(stderr);
-        exit(3);
-    }
-    int wdays = days-42+1;
-    int *chronics = sliding_window(42, stresses, days);
-    int *acutes = sliding_window(7, stresses, days);
+
+    int wdays = days-CHRONIC_SIZE+1;
+    int *chronics = sliding_window_average(CHRONIC_SIZE, stresses, days);
+    int *acutes = sliding_window_average(ACUTE_SIZE, stresses, days);
     int *rsbs = (int *)malloc((wdays)*sizeof(int));
+
     int i;
     for (i = 0; i < wdays; i++) {
         *(rsbs + i) = *(chronics + i) - *(acutes + i);
     }
 
-    printf("\n\n");
+    printf("\n\nRSBS\n");
     print_array(rsbs, wdays, 0);
+
+
+
+    int *time_arr = consolidate_time(head, days);
+    
+    reverse(time_arr, days);
+    printf("\n\nREV TIMES:\n");
+    print_array(time_arr, days, 1);
+
+    int *times = sliding_window_sum(ACUTE_SIZE, time_arr, days);
+    
+    printf("\n\nSLIDING TIMES:");
+
+    print_array(times, wdays, 0);
+
+
+    
+
+    
 
 
     

@@ -89,7 +89,7 @@ time_t num_days(Activity *start) {
 }
 
 
-int *consolidate(Activity *start, int size){
+int *consolidate_rss(Activity *start, int size){
     int index = 0;
     int stress_score = 0;
     int *out = (int *)malloc(size*sizeof(int));
@@ -112,17 +112,37 @@ int *consolidate(Activity *start, int size){
                 stress_score = 0;
                 curr = curr->next;
                 break;
-
-
         }
-        
-
-        // add 
-        // stress_score += start->rss;
     }
-
         out[index] = (stress_score += curr->rss);
-    
     return out;
+}
 
+int *consolidate_time(Activity *start, int size){
+    int index = 0;
+    float total_time = 0;
+    int *out = (int *)malloc(size*sizeof(int));
+    memset(out, 0, size*sizeof(int));
+    Activity *curr = start;
+    time_t diff = 0;
+
+    // Traverse the list
+    while (curr->next != NULL) {
+        total_time += curr->time;
+        // check if the next day is the same day
+        diff = (curr->date - curr->next->date)/(time_t)86400;
+        switch (diff) {
+            case 0:     // "tomorrow" is actually the same day
+                curr = curr->next;
+                break;
+            default:    // one or more days have passed
+                out[index] = round(total_time);
+                index += diff;
+                total_time = 0;
+                curr = curr->next;
+                break;
+        }
+    }
+        out[index] = round(total_time += curr->time);
+    return out;
 }

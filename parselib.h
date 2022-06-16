@@ -12,6 +12,8 @@
 
 #define MAX_LINE 1024
 #define TOK_SIZE 16
+#define CHRONIC_SIZE 42
+#define ACUTE_SIZE  7
 
 #endif
 
@@ -31,4 +33,5 @@ void print_array(int *arr, int size, int filter);
 void fprint_array(float *arr, int size, int filter);
 time_t get_epoch(char *date);
 void reverse(int *list, int len);
-int *sliding_window(int wsize, int *arr, int asize);
+int *sliding_window_average(int wsize, int *arr, int asize);
+int *sliding_window_sum(int wsize, int *arr, int asize);
