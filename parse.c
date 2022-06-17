@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
 
                 
             }
-                        
+
             add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
             nodes++;
         }
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
     reverse(time_arr, days);
     printf("\n\nREV TIMES:\n");
     print_array(time_arr, days, 1);
-
+    printf("wdays: %d\n", wdays);
     int *times = sliding_window_sum(ACUTE_SIZE, time_arr, days);
     
     printf("\n\nSLIDING TIMES:");

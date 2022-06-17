@@ -212,7 +212,9 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
 	// 'wsize' must be <= to 'asize'
 	// returns pointer to an array of floats containing averages
 	// Output array created with malloc; caller must use free()
-  
+  printf("asize: %d\n", asize);
+  printf("wsize: %d\n", wsize);
+  printf("%d\n", asize-wsize+1);
 //   float avg = 0;
   int *out = (int *)malloc((asize - wsize + 1)*sizeof(int));
 	
