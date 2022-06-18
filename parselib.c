@@ -252,9 +252,9 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
   return out;
   
 }
-// TODO: Still need to dom some work in this. Not sure if I want to return floats or ints
+// TODO: Still need to do some work on this. Not sure if I want to return floats or ints
 // otherwise, seems to work!
-float *rsb(int *stress, int c_win, int a_win, int size) {
+int *rsb(int *stress, int c_win, int a_win, int size) {
   int *start, *c_end, *a_end;
   float chronic_sum, acute_sum, chronic_avg, acute_avg;
   int outsize = size - c_win + 1;
@@ -264,7 +264,7 @@ float *rsb(int *stress, int c_win, int a_win, int size) {
     exit(1);
   }
   
-  float *out = (float *)malloc((outsize)*sizeof(float));
+  int *out = (int *)malloc((outsize)*sizeof(int));
   
   start = stress;
   c_end = stress;
@@ -291,7 +291,7 @@ float *rsb(int *stress, int c_win, int a_win, int size) {
   while (c < size) {
     chronic_avg = chronic_sum / (float)c_win;
     acute_avg = acute_sum / (float)a_win;
-    out[o] = chronic_avg - acute_avg;
+    out[o] = round((chronic_avg - acute_avg));
     chronic_sum += *c_end - *start;
     acute_sum += *a_end - *start;
     c_end++;

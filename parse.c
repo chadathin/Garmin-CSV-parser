@@ -101,8 +101,6 @@ int main(int argc, char *argv[]) {
                     default:
                         data_point++;
                 };
-
-                
             }
 
             add_node(&head, act_type, act_date, act_dist, act_time, act_hr, lthr);
@@ -132,22 +130,13 @@ int main(int argc, char *argv[]) {
 
     // Now, we have an array of RSSs for EACH DAY in the CSV
     // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
-    // so we need to reverse them, so they ARE in chronoligical order
-    // printf("\n\nREV STRESSES:\n");
-    // reverse(stresses, days);
-    // print_array(stresses, days, 0);
 
     // We can calculate chronic and acute RSS loads to find RSB
 
-    int wdays = days-CHRONIC_SIZE+1;
-    int *chronics = sliding_window_average(CHRONIC_SIZE, stresses, days);
-    int *acutes = sliding_window_average(ACUTE_SIZE, stresses, days);
-    int *rsbs = (int *)malloc((wdays)*sizeof(int));
 
-    int i;
-    for (i = 0; i < wdays; i++) {
-        *(rsbs + i) = *(chronics + i) - *(acutes + i);
-    }
+    int wdays = days-CHRONIC_SIZE+1;
+
+    int *rsbs = rsb(stresses, CHRONIC_SIZE, ACUTE_SIZE, days);
 
     printf("\n\nRSBS\n");
     print_array(rsbs, wdays, 0);
@@ -169,7 +158,10 @@ int main(int argc, char *argv[]) {
 
     
 
-    
+    printf("=== TESTING ===\n");
+    int test[17] = {2,0,8,6,0,0,1,0,3,9,2,0,0,7,4,0,5};
+    int *test_rsb = rsb(test, 6, 3, 17);
+    print_array(test_rsb, (17-6+1), 0);
 
 
     
@@ -181,8 +173,7 @@ int main(int argc, char *argv[]) {
 
     free_activity_list(head);
     free(stresses);
-    free(chronics);
-    free(acutes);
+
     free(rsbs);
 
 

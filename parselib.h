@@ -35,3 +35,4 @@ time_t get_epoch(char *date);
 void reverse(int *list, int len);
 int *sliding_window_average(int wsize, int *arr, int asize);
 int *sliding_window_sum(int wsize, int *arr, int asize);
+int *rsb(int *stress, int c_win, int a_win, int size);
