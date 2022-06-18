@@ -80,7 +80,7 @@ time_t num_days(Activity *start) {
     last = start->date;
     printf("Last: %ld\n", last);
 
-    diff = first - last;
+    diff = last - first;
     printf("Diff: %ld\n", diff);
     days = (double)diff / (double)ONE_DAY;
     printf("Days Calc: %f\n", days);
@@ -101,7 +101,7 @@ int *consolidate_rss(Activity *start, int size){
     while (curr->next != NULL) {
         stress_score += curr->rss;
         // check if the next day is the same day
-        diff = (curr->date - curr->next->date)/(time_t)86400;
+        diff = ((curr->next->date - curr->date)/(time_t)86400);
         switch (diff) {
             case 0:     // "tomorrow" is actually the same day
                 curr = curr->next;
@@ -145,4 +145,20 @@ int *consolidate_time(Activity *start, int size){
     }
         out[index] = round(total_time += curr->time);
     return out;
+}
+
+void reverse_ll(Activity **start) {
+  Activity *curr = *start;
+  Activity *next = curr->next;
+  Activity *nextnext = next->next;
+  curr->next = NULL;
+  while (nextnext != NULL) {
+     next->next = curr;
+     curr = next;
+     next = nextnext;
+     nextnext = next->next;
+  }
+  next->next = curr;
+  *start = next;
+  
 }

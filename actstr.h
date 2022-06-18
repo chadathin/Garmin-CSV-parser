@@ -30,3 +30,4 @@ void print_list(Activity *);
 int *consolidate_rss(Activity *start, int size);
 int *consolidate_time(Activity *start, int size);
 time_t num_days(Activity *start);
+void reverse_ll(Activity **start);

@@ -266,9 +266,9 @@ int *rsb(int *stress, int c_win, int a_win, int size) {
   
   int *out = (int *)malloc((outsize)*sizeof(int));
   
-  start = stress;
-  c_end = stress;
-  a_end = stress;
+  start = stress + (size - 1);
+  c_end = stress + (size - 1);
+  a_end = stress + (size - 1);
   
   chronic_sum = 0.0;
   chronic_avg = 0.0;
@@ -276,31 +276,29 @@ int *rsb(int *stress, int c_win, int a_win, int size) {
   acute_avg = 0.0;
   
   // establish chronic window
-  for (c = 0; c < c_win; c++) {
+  for (c = c_win; c > 0; c--) {
     chronic_sum += *c_end;
-    c_end++;
+    c_end--;
   }
   
   // establish actue window
-  for (a = 0; a < a_win; a++) {
+  for (a = a_win; a > 0; a--) {
     acute_sum += *a_end;
-    a_end++;
+    a_end--;
   }
   
-  o = 0;
-  while (c < size) {
+  o = outsize - 1;
+  while (o > 0) {
     chronic_avg = chronic_sum / (float)c_win;
     acute_avg = acute_sum / (float)a_win;
     out[o] = round((chronic_avg - acute_avg));
     chronic_sum += *c_end - *start;
     acute_sum += *a_end - *start;
-    c_end++;
-    a_end++;
-    start++;
-    c++;
-    o++;
-    
-    
+    c_end--;
+    a_end--;
+    start--;
+    o--;
+
   }
   
   chronic_avg = chronic_sum / (float)c_win;

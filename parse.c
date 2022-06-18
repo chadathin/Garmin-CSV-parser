@@ -113,10 +113,16 @@ int main(int argc, char *argv[]) {
     fclose(in);
 
     print_list(head);
+    reverse_ll(&head);
+    printf("\n");
+    print_list(head);
+
+    
     // So now, we have a linked list of activity nodes
     // First, I'd like to find the number of dates covered
     int days = num_days(head);
     printf("DAYS: %d\n", days);
+    
     if (days < CHRONIC_SIZE) {
         fprintf(stderr, "Must have at least %d data points.\n", CHRONIC_SIZE);
         fflush(stderr);
@@ -127,9 +133,13 @@ int main(int argc, char *argv[]) {
     int *stresses = consolidate_rss(head, days);
     printf("STRESSES\n");
     print_array(stresses, days, 0);
+    
+    // Don't need linked list anymore
+    free_activity_list(head);
+
 
     // Now, we have an array of RSSs for EACH DAY in the CSV
-    // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
+    // They are in chronological order (i[0] = OLDEST, i[n-1] = NEWEST)
 
     // We can calculate chronic and acute RSS loads to find RSB
 
@@ -143,35 +153,6 @@ int main(int argc, char *argv[]) {
 
 
 
-    int *time_arr = consolidate_time(head, days);
-    
-    // reverse(time_arr, days);
-    // printf("\n\nREV TIMES:\n");
-    // print_array(time_arr, days, 1);
-    printf("wdays: %d\n", wdays);
-    int *times = sliding_window_sum(ACUTE_SIZE, time_arr, days);
-    
-    printf("\n\nSLIDING TIMES:");
-
-    print_array(times, wdays, 0);
-
-
-    
-
-    printf("=== TESTING ===\n");
-    int test[17] = {2,0,8,6,0,0,1,0,3,9,2,0,0,7,4,0,5};
-    int *test_rsb = rsb(test, 6, 3, 17);
-    print_array(test_rsb, (17-6+1), 0);
-
-
-    
-
-    
-
-    
-   
-
-    free_activity_list(head);
     free(stresses);
 
     free(rsbs);
