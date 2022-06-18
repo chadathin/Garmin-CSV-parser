@@ -252,3 +252,61 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
   return out;
   
 }
+// TODO: Still need to dom some work in this. Not sure if I want to return floats or ints
+// otherwise, seems to work!
+float *rsb(int *stress, int c_win, int a_win, int size) {
+  int *start, *c_end, *a_end;
+  float chronic_sum, acute_sum, chronic_avg, acute_avg;
+  int outsize = size - c_win + 1;
+  int c, a, o;
+  if (outsize < 0) {
+    printf("Window too large. Must have at least %d data points.\n", c_win);
+    exit(1);
+  }
+  
+  float *out = (float *)malloc((outsize)*sizeof(float));
+  
+  start = stress;
+  c_end = stress;
+  a_end = stress;
+  
+  chronic_sum = 0.0;
+  chronic_avg = 0.0;
+  acute_sum = 0.0;
+  acute_avg = 0.0;
+  
+  // establish chronic window
+  for (c = 0; c < c_win; c++) {
+    chronic_sum += *c_end;
+    c_end++;
+  }
+  
+  // establish actue window
+  for (a = 0; a < a_win; a++) {
+    acute_sum += *a_end;
+    a_end++;
+  }
+  
+  o = 0;
+  while (c < size) {
+    chronic_avg = chronic_sum / (float)c_win;
+    acute_avg = acute_sum / (float)a_win;
+    out[o] = chronic_avg - acute_avg;
+    chronic_sum += *c_end - *start;
+    acute_sum += *a_end - *start;
+    c_end++;
+    a_end++;
+    start++;
+    c++;
+    o++;
+    
+    
+  }
+  
+  chronic_avg = chronic_sum / (float)c_win;
+  acute_avg = acute_sum / (float)a_win;
+  out[o] = chronic_avg - acute_avg;
+  
+  return out;
+  
+}

@@ -133,9 +133,9 @@ int main(int argc, char *argv[]) {
     // Now, we have an array of RSSs for EACH DAY in the CSV
     // They are in reverse chronological order (i[0] = MOST RECENT, i[n-1] = OLDEST)
     // so we need to reverse them, so they ARE in chronoligical order
-    printf("\n\nREV STRESSES:\n");
-    reverse(stresses, days);
-    print_array(stresses, days, 0);
+    // printf("\n\nREV STRESSES:\n");
+    // reverse(stresses, days);
+    // print_array(stresses, days, 0);
 
     // We can calculate chronic and acute RSS loads to find RSB
 
@@ -156,9 +156,9 @@ int main(int argc, char *argv[]) {
 
     int *time_arr = consolidate_time(head, days);
     
-    reverse(time_arr, days);
-    printf("\n\nREV TIMES:\n");
-    print_array(time_arr, days, 1);
+    // reverse(time_arr, days);
+    // printf("\n\nREV TIMES:\n");
+    // print_array(time_arr, days, 1);
     printf("wdays: %d\n", wdays);
     int *times = sliding_window_sum(ACUTE_SIZE, time_arr, days);
     
