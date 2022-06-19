@@ -156,7 +156,7 @@ int main(int argc, char *argv[]) {
     FILE *output = fopen(fname, "w");
     int nwritten;
     nwritten = fprintf(output, "%s:\n\n", get_date_time());
-    nwritten = fprintf(output, "Running stress scores (oldest -> newest:\n");
+    nwritten = fprintf(output, "Running stress scores (oldest -> newest):\n");
     print_to_file(stresses, days, output);
 
     fclose(output);

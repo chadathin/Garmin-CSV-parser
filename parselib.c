@@ -116,7 +116,7 @@ void print_to_file(int *arr, int size, FILE *output){
         }
         
         if (i < size-1) fprintf(output, ", ");
-        if (i%14==0) fprintf(output, "\n");
+        if (i%14==0 && i > 0) fprintf(output, "\n");
     }
     fprintf(output, "]\n");
 
