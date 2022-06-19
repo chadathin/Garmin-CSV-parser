@@ -78,7 +78,7 @@ int calc_rss(int avghr, int lthr, double duration) {
 
     double stress = ((double)avghr / (double) lthr) * (duration / (double)60);
     stress = stress * 100;
-    return (int) stress;
+    return round(stress);
 
 }
 
@@ -207,7 +207,7 @@ int *sliding_window_average(int wsize, int *arr, int asize) {
 }
 
 int *sliding_window_sum(int wsize, int *arr, int asize) {
-	// Calculates the rolling averages of an array
+	// Calculates the rolling sums of an array
 	// rolling window is size 'wsize'
 	// 'wsize' must be <= to 'asize'
 	// returns pointer to an array of floats containing averages
@@ -219,34 +219,34 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
   int *out = (int *)malloc((asize - wsize + 1)*sizeof(int));
 	
   int *s, *e;
-  s = arr;
-  e = arr;
+  s = arr + (asize - 1);
+  e = arr + (asize - 1);
 
 	int i, a_index, sum;
-	a_index = 0;
+	a_index = (asize - wsize + 1);
 	sum = 0;
 
 	// Establish window
-  for (i = 0; i < wsize; i++) {
+  for (i = wsize; i > 0; i--) {
     sum += *e;
-    e++;
+    e--;
   }
 
-	// place the first average and increment
+	// place the first sum and increment
   *(out + a_index) = round((float)sum);
-  a_index++;
+  a_index--;
 
   // walk down the array
-  while (i < asize) {
+  while (a_index > 0) {
 
 		// add the next, subtract the first, average and place
     sum += (*e - *s);
     *(out + a_index) = round((float)sum);
     
-    a_index++;
-    e++;
-    s++;
-    i++;
+    a_index--;
+    e--;
+    s--;
+    i--;
   }
   
   return out;
@@ -255,56 +255,56 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
 // TODO: Still need to do some work on this. Not sure if I want to return floats or ints
 // otherwise, seems to work!
 int *rsb(int *stress, int c_win, int a_win, int size) {
-  int *start, *c_end, *a_end;
-  float chronic_sum, acute_sum, chronic_avg, acute_avg;
-  int outsize = size - c_win + 1;
-  int c, a, o;
-  if (outsize < 0) {
-    printf("Window too large. Must have at least %d data points.\n", c_win);
-    exit(1);
-  }
-  
-  int *out = (int *)malloc((outsize)*sizeof(int));
-  
-  start = stress + (size - 1);
-  c_end = stress + (size - 1);
-  a_end = stress + (size - 1);
-  
-  chronic_sum = 0.0;
-  chronic_avg = 0.0;
-  acute_sum = 0.0;
-  acute_avg = 0.0;
-  
-  // establish chronic window
-  for (c = c_win; c > 0; c--) {
-    chronic_sum += *c_end;
-    c_end--;
-  }
-  
-  // establish actue window
-  for (a = a_win; a > 0; a--) {
-    acute_sum += *a_end;
-    a_end--;
-  }
-  
-  o = outsize - 1;
-  while (o > 0) {
+    int *start, *c_end, *a_end;
+    float chronic_sum, acute_sum, chronic_avg, acute_avg;
+    int outsize = size - c_win + 1;
+    int c, a, o;
+    if (outsize < 0) {
+        printf("Window too large. Must have at least %d data points.\n", c_win);
+        exit(1);
+    }
+
+    int *out = (int *)malloc((outsize)*sizeof(int));
+
+    start = stress + (size - 1);
+    c_end = stress + (size - 1);
+    a_end = stress + (size - 1);
+
+    chronic_sum = 0.0;
+    chronic_avg = 0.0;
+    acute_sum = 0.0;
+    acute_avg = 0.0;
+
+    // establish chronic window
+    for (c = c_win; c > 0; c--) {
+        chronic_sum += *c_end;
+        c_end--;
+    }
+
+    // establish actue window
+    for (a = a_win; a > 0; a--) {
+        acute_sum += *a_end;
+        a_end--;
+    }
+
+    o = outsize - 1;
+    while (o > 0) {
+        chronic_avg = chronic_sum / (float)c_win;
+        acute_avg = acute_sum / (float)a_win;
+        out[o] = round((chronic_avg - acute_avg));
+        chronic_sum += *c_end - *start;
+        acute_sum += *a_end - *start;
+        c_end--;
+        a_end--;
+        start--;
+        o--;
+
+    }
+
     chronic_avg = chronic_sum / (float)c_win;
     acute_avg = acute_sum / (float)a_win;
-    out[o] = round((chronic_avg - acute_avg));
-    chronic_sum += *c_end - *start;
-    acute_sum += *a_end - *start;
-    c_end--;
-    a_end--;
-    start--;
-    o--;
+    out[o] = chronic_avg - acute_avg;
 
-  }
-  
-  chronic_avg = chronic_sum / (float)c_win;
-  acute_avg = acute_sum / (float)a_win;
-  out[o] = chronic_avg - acute_avg;
-  
-  return out;
+    return out;
   
 }

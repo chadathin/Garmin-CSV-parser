@@ -130,7 +130,7 @@ int *consolidate_time(Activity *start, int size){
     while (curr->next != NULL) {
         total_time += curr->time;
         // check if the next day is the same day
-        diff = (curr->date - curr->next->date)/(time_t)86400;
+        diff = (curr->next->date - curr->date)/(time_t)86400;
         switch (diff) {
             case 0:     // "tomorrow" is actually the same day
                 curr = curr->next;
@@ -148,17 +148,18 @@ int *consolidate_time(Activity *start, int size){
 }
 
 void reverse_ll(Activity **start) {
-  Activity *curr = *start;
-  Activity *next = curr->next;
-  Activity *nextnext = next->next;
-  curr->next = NULL;
-  while (nextnext != NULL) {
-     next->next = curr;
-     curr = next;
-     next = nextnext;
-     nextnext = next->next;
-  }
-  next->next = curr;
-  *start = next;
+    // reverses the linked list holding our Activity Nodes
+    Activity *curr = *start;
+    Activity *next = curr->next;
+    Activity *nextnext = next->next;
+    curr->next = NULL;
+    while (nextnext != NULL) {
+        next->next = curr;
+        curr = next;
+        next = nextnext;
+        nextnext = next->next;
+    }
+    next->next = curr;
+    *start = next;
   
 }

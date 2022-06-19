@@ -129,10 +129,14 @@ int main(int argc, char *argv[]) {
         exit(3);
     }
 
+    int *times = consolidate_time(head, days);
+
     // Then, I'd like to combine RSS scores from the same date
     int *stresses = consolidate_rss(head, days);
-    printf("STRESSES\n");
-    print_array(stresses, days, 0);
+    // printf("STRESSES\n");
+    // print_array(stresses, days, 0);
+    printf("\nTIMES:\n");
+    print_array(times, days, 0);
     
     // Don't need linked list anymore
     free_activity_list(head);
@@ -147,9 +151,13 @@ int main(int argc, char *argv[]) {
     int wdays = days-CHRONIC_SIZE+1;
 
     int *rsbs = rsb(stresses, CHRONIC_SIZE, ACUTE_SIZE, days);
+    int *tbal = sliding_window_sum(ACUTE_SIZE, times, days);
 
     printf("\n\nRSBS\n");
     print_array(rsbs, wdays, 0);
+
+    printf("\n\nTIMES\n");
+    print_array(tbal, wdays, 0);
 
 
 
