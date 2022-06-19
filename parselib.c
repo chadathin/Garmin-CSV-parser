@@ -223,7 +223,7 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
   e = arr + (asize - 1);
 
 	int i, a_index, sum;
-	a_index = (asize - wsize + 1);
+	a_index = (asize - wsize);
 	sum = 0;
 
 	// Establish window
@@ -246,9 +246,11 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
     a_index--;
     e--;
     s--;
-    i--;
   }
   
+    sum += (*e - *s);
+    *(out + a_index) = round((float)sum);
+
   return out;
   
 }

@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
     print_array(rsbs, wdays, 0);
 
     printf("\n\nTIMES\n");
-    print_array(tbal, wdays, 0);
+    print_array(tbal, (days-7+1), 0);
 
 
 
