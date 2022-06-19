@@ -112,20 +112,21 @@ int main(int argc, char *argv[]) {
     // close activities file
     fclose(in);
 
-    print_list(head);
+    // reverse our activities linked list 
+    // so it's in chronological order
     reverse_ll(&head);
-    printf("\n");
-    print_list(head);
 
     
     // So now, we have a linked list of activity nodes
     // First, I'd like to find the number of dates covered
     int days = num_days(head);
-    printf("DAYS: %d\n", days);
     
+    // If there aren't about dates to calculate 
+    // a chronic training status
     if (days < CHRONIC_SIZE) {
         fprintf(stderr, "Must have at least %d data points.\n", CHRONIC_SIZE);
         fflush(stderr);
+        free_activity_list(head);
         exit(3);
     }
 
@@ -133,10 +134,7 @@ int main(int argc, char *argv[]) {
 
     // Then, I'd like to combine RSS scores from the same date
     int *stresses = consolidate_rss(head, days);
-    // printf("STRESSES\n");
-    // print_array(stresses, days, 0);
-    printf("\nTIMES:\n");
-    print_array(times, days, 0);
+
     
     // Don't need linked list anymore
     free_activity_list(head);
@@ -153,17 +151,13 @@ int main(int argc, char *argv[]) {
     int *rsbs = rsb(stresses, CHRONIC_SIZE, ACUTE_SIZE, days);
     int *tbal = sliding_window_sum(ACUTE_SIZE, times, days);
 
-    printf("\n\nRSBS\n");
-    print_array(rsbs, wdays, 0);
 
-    printf("\n\nTIMES\n");
-    print_array(tbal, (days-7+1), 0);
-
-
-
+    free(times);
     free(stresses);
-
     free(rsbs);
+    free(tbal);
+    
+    
 
 
     return 0;

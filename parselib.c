@@ -210,11 +210,13 @@ int *sliding_window_sum(int wsize, int *arr, int asize) {
 	// Calculates the rolling sums of an array
 	// rolling window is size 'wsize'
 	// 'wsize' must be <= to 'asize'
-	// returns pointer to an array of floats containing averages
+	// returns pointer to an array of ints containing sums from sliding window
 	// Output array created with malloc; caller must use free()
-  printf("asize: %d\n", asize);
-  printf("wsize: %d\n", wsize);
-  printf("%d\n", asize-wsize+1);
+    if (wsize > asize) {
+        errno = EINVAL;
+        fprintf(stderr, "%s: In sliding_window_sum(), sliding window size must be <= array size\n", strerror(errno));
+        exit(3);
+    }
 //   float avg = 0;
   int *out = (int *)malloc((asize - wsize + 1)*sizeof(int));
 	

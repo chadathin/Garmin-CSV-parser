@@ -71,19 +71,13 @@ time_t num_days(Activity *start) {
 
     time_t diff;
     double days;
-
     first = start->date;
-    printf("First: %ld\n", first);
     while (start->next != NULL) {
         start = start->next;
     }
     last = start->date;
-    printf("Last: %ld\n", last);
-
     diff = last - first;
-    printf("Diff: %ld\n", diff);
     days = (double)diff / (double)ONE_DAY;
-    printf("Days Calc: %f\n", days);
     return days+1;
 
 }
