@@ -14,6 +14,7 @@
 #define TOK_SIZE 16
 #define CHRONIC_SIZE 42
 #define ACUTE_SIZE  7
+#define DATE_LEN 36
 
 #endif
 
@@ -36,3 +37,5 @@ void reverse(int *list, int len);
 int *sliding_window_average(int wsize, int *arr, int asize);
 int *sliding_window_sum(int wsize, int *arr, int asize);
 int *rsb(int *stress, int c_win, int a_win, int size);
+char *get_date_time(void);
+void print_to_file(int *arr, int size, FILE *output);

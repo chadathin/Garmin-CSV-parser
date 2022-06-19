@@ -105,6 +105,23 @@ void print_array(int *arr, int size, int filter) {
 
 }
 
+void print_to_file(int *arr, int size, FILE *output){
+    int i; 
+    fprintf(output, "[");
+    for (i = 0; i < size; i++) {
+        if (*(arr + i) == 0) {
+            fprintf(output, "--");
+        } else {
+            fprintf(output, "%d", *(arr + i));
+        }
+        
+        if (i < size-1) fprintf(output, ", ");
+        if (i%14==0) fprintf(output, "\n");
+    }
+    fprintf(output, "]\n");
+
+}
+
 void fprint_array(float *arr, int size, int filter) {
     int i;
     printf("[");
@@ -311,4 +328,15 @@ int *rsb(int *stress, int c_win, int a_win, int size) {
 
     return out;
   
+}
+
+char *get_date_time(void) {
+    char *out = (char *)calloc(DATE_LEN, sizeof(char));
+
+    time_t now = time(NULL);
+    struct tm *t_struct;
+    t_struct = localtime(&now);
+    strftime(out, DATE_LEN, "RSS %F %T", t_struct);
+    return out;
+
 }

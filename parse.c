@@ -151,6 +151,16 @@ int main(int argc, char *argv[]) {
     int *rsbs = rsb(stresses, CHRONIC_SIZE, ACUTE_SIZE, days);
     int *tbal = sliding_window_sum(ACUTE_SIZE, times, days);
 
+    char *fname = get_date_time();
+    strcat(fname, ".rsb");
+    FILE *output = fopen(fname, "w");
+    int nwritten;
+    nwritten = fprintf(output, "%s:\n\n", get_date_time());
+    nwritten = fprintf(output, "Running stress scores (oldest -> newest:\n");
+    print_to_file(stresses, days, output);
+
+    fclose(output);
+
 
     free(times);
     free(stresses);
