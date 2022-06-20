@@ -109,6 +109,7 @@ void print_to_file(int *arr, int size, FILE *output){
     int i; 
     fprintf(output, "[");
     for (i = 0; i < size; i++) {
+        if (i%14==0 && i > 0) fprintf(output, "\n");
         if (*(arr + i) == 0) {
             fprintf(output, "--");
         } else {
@@ -116,7 +117,7 @@ void print_to_file(int *arr, int size, FILE *output){
         }
         
         if (i < size-1) fprintf(output, ", ");
-        if (i%14==0 && i > 0) fprintf(output, "\n");
+        
     }
     fprintf(output, "]\n");
 
@@ -340,3 +341,4 @@ char *get_date_time(void) {
     return out;
 
 }
+
