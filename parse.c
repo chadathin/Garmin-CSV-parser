@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
         free_activity_list(head);
         exit(3);
     }
-
+    // Combine times from the same date
     int *times = consolidate_time(head, days);
 
     // Then, I'd like to combine RSS scores from the same date
@@ -144,21 +144,41 @@ int main(int argc, char *argv[]) {
     // They are in chronological order (i[0] = OLDEST, i[n-1] = NEWEST)
 
     // We can calculate chronic and acute RSS loads to find RSB
-
-
     int wdays = days-CHRONIC_SIZE+1;
 
+    // Tabulate Running Stress Balances
     int *rsbs = rsb(stresses, CHRONIC_SIZE, ACUTE_SIZE, days);
+
+    // Tabulate sliding window sums of weekly time
     int *tbal = sliding_window_sum(ACUTE_SIZE, times, days);
 
+    // Get date and time to creat filename
     char *fname = get_date_time();
+
+    // Add file type
     strcat(fname, ".rsb");
+
+    // Open output file
     FILE *output = fopen(fname, "w");
     int nwritten;
-    nwritten = fprintf(output, "%s:\n\n", get_date_time());
-    nwritten = fprintf(output, "Running stress scores (oldest -> newest):\n");
-    print_to_file(stresses, days, output);
 
+    // Output header
+    nwritten = fprintf(output, "%s:\n", get_date_time());
+    nwritten = fprintf(output, "LTHR: %d\n\n", lthr);
+
+    // Output stress scores
+    nwritten = fprintf(output, "Running Stress Scores (oldest -> newest):\n");
+    print_to_file(stresses, days, output);
+    
+    // Output Running Stress Balances
+    nwritten = fprintf(output, "\nRunning Stress Balances (oldest -> newest):\n");
+    print_to_file(rsbs, wdays, output);
+
+    // Output sliding window times
+    nwritten = fprintf(output, "\nSeven-Day Sliding Window of Times (oldest -> newest):\n");
+    print_to_file(tbal, (days-ACUTE_SIZE+1), output);
+
+    // close output file
     fclose(output);
 
 
