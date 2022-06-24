@@ -152,7 +152,7 @@ time_t get_epoch(char *date) {
         &temp.tm_mon, &temp.tm_mday);
         
     temp.tm_year -= 1900;
-    temp.tm_min--;
+    temp.tm_mon--;
     temp.tm_isdst = -1;
     temp.tm_sec = 0;
     temp.tm_min = 0;

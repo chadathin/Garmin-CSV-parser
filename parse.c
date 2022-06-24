@@ -112,6 +112,8 @@ int main(int argc, char *argv[]) {
     // close activities file
     fclose(in);
 
+		print_list(head);
+	
     // reverse our activities linked list 
     // so it's in chronological order
     reverse_ll(&head);
@@ -134,6 +136,7 @@ int main(int argc, char *argv[]) {
 
     // Then, I'd like to combine RSS scores from the same date
     int *stresses = consolidate_rss(head, days);
+		print_array(stresses, days, 0);
 
     
     // Don't need linked list anymore
